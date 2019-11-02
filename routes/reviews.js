@@ -4,9 +4,9 @@ const auth = require('../services/auth');
 
 router.post('/', auth.any, controller.create);
 
-router.get('/', auth.any, controller.findAll);
+router.get('/', controller.findAll);
 
-router.get('/:id', auth.any, controller.findOne);
+router.get('/:id', controller.findOne);
 
 router.put('/:id', auth.any, controller.update);
 
