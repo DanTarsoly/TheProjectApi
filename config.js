@@ -19,7 +19,7 @@ const config = {
         },
         apiRoot: process.env.API_ROOT || '',
         mongo: {
-            url: process.env.MONGODB_URI || 'mongodb://localhost/the-project-gen',
+            url: process.env.MONGODB_URI || 'mongodb://localhost/the-project-api',
             options: {
                 useNewUrlParser: true,
                 useCreateIndex: true,
