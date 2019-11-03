@@ -23,6 +23,7 @@ const config = {
             options: {
                 useNewUrlParser: true,
                 useCreateIndex: true,
+                useUnifiedTopology: true
             }
         },
         jwt: {
@@ -51,11 +52,6 @@ const config = {
     development: {
         server: {
             ip: process.env.IP || '127.0.0.1'
-        },
-        mongo:{
-            options: {
-                debug: true
-            }
         }
     },
     production: {
