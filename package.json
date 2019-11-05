@@ -28,5 +28,6 @@
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4"
   },
-  "author": "roninn-creations"
+  "author": "roninn-creations",
+  "license": "MIT"
 }
