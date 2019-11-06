@@ -20,7 +20,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Headers
 app.use((req, res, next) => {
   // Address allowed to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   // Allowed request methods
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
