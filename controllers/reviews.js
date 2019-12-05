@@ -2,19 +2,13 @@ const Review = require('../models/review');
 const User = require('../models/user');
 
 exports.create = (req, res, next) => {
+    //TODO: Add checking for existing place and user or fix error message when missing
     const newReview = Review.create(req.body);
-    if (req.user.role !== 'admin') newReview.user = req.user.id;
-    User.findById(newReview.user)
-        .then(user => {
-            if (!user) {
-                return res.status(404).json({ message: 'User not found!' });
-            }
-            newReview.save()
-                .then(review => {
-                    review.user = user;
-                    res.status(201).json(review.getView())
-                })
-                .catch(next);
+    newReview.user = req.user.id;
+    newReview.save()
+        .then(review => {
+            review.user = req.user;
+            res.status(201).json(review.getView())
         })
         .catch(next);
 };
@@ -49,30 +43,23 @@ exports.findOne = (req, res, next) => {
 
 exports.update = (req, res, next) => {
     const newReview = Review.normalize(req.body);
-    if (req.user.role !== 'admin') {
-        delete newReview.user;
-        delete newReview.place;
-    }
+    delete newReview.user;
+    delete newReview.place;
     Review.findById(req.params.id)
+        .populate('user')
         .then(review => {
             if (!review) {
                 return res.status(404).json({ message: 'Review not found!' });
             }
-            if (review.user.toString() !== req.user.id && req.user.role !== 'admin') {
+            if (review.user.id.toString() !== req.user.id && req.user.role !== 'admin') {
                 return res.status(403).json({ message: 'Review cannot be modified' });
             }
+            const owner = review.user;
             Object.assign(review, newReview);
-            User.findById(review.user)
-                .then(user => {
-                    if (!user) {
-                        return res.status(404).json({ message: 'User not found!' });
-                    }
-                    review.save()
-                        .then(review => {
-                            review.user = user;
-                            res.json(review.getView())
-                        })
-                        .catch(next);
+            review.save()
+                .then(review => {
+                    review.user = owner;
+                    res.json(review.getView())
                 })
                 .catch(next);
         })

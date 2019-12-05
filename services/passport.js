@@ -23,6 +23,7 @@ passport.use('jwt', new JwtStrategy({
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: jwtSecret
     },
+    //TODO: Find solution to avoid this
     function(jwtPayload, done) {
         User.findById(jwtPayload.id, (err, user) => {
             return done(err, user)

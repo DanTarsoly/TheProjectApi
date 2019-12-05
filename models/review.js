@@ -56,7 +56,7 @@ reviewSchema.methods = {
 reviewSchema.statics = {
     normalize(review) {
         const normalized = {};
-        if (review.user !== undefined) normalized.user = review.user;
+        // if (review.user !== undefined) normalized.user = review.user;
         if (review.place !== undefined) normalized.place = review.place;
         if (review.rating !== undefined) normalized.rating = review.rating;
         if (review.comment !== undefined) normalized.comment = review.comment;

@@ -4,7 +4,11 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = require('../config').jwt.secret;
 const jwtExpr = require('../config').jwt.exprDays;
 
-const roles = ['user', 'admin'];
+const Role = Object.freeze({
+    user: 'user',
+    admin: 'admin'
+});
+const roles = [Role.user, Role.admin];
 const rolesEnum = {values: roles, message: 'Invalid role'};
 
 const userSchema = new mongoose.Schema({
@@ -30,7 +34,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: rolesEnum,
-        default: 'user'
+        default: Role.user
     },
     picture: {
         type: String,
@@ -77,6 +81,9 @@ userSchema.methods = {
 
         return jwt.sign({
             id: this.id,
+            name: this.name,
+            picture: this.picture,
+            role: this.role,
             exp: parseInt(expirationDate.getTime() / 1000, 10),
         }, jwtSecret);
     },
